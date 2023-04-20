@@ -16,7 +16,7 @@ const cors = require('cors')
 app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
-
+app.use(express.static('build'));
 
 
 let notes = [
@@ -63,7 +63,7 @@ app.post('/api/notes', (request, response) => {
   response.json(note)
 });
 app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>');
+  response.send('<h1>Notes</h1>');
 });
 
 app.get('/api/notes', (request, response) => {
@@ -76,10 +76,13 @@ app.get('/api/notes/:id', (request, response) => {
     console.log(note.id, typeof note.id, id, typeof id, note.id === id)
     return note.id === id
   });
-  if (note) {
-    response.json(note)
-  } else {
-    response.status(404).end()
+  if (note)
+  {
+    response.json(note);
+  } 
+  else 
+  {
+    response.status(404).end();
   }
 });
 app.delete('/api/notes/:id', (request, response) => {
